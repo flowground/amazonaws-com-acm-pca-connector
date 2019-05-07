@@ -1,0 +1,253 @@
+{
+    "type": "object",
+    "properties": {
+        "Action": {
+            "required": true,
+            "type": "string"
+        },
+        "Version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "CertificateAuthorityConfiguration": {
+                    "description": "Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.",
+                    "properties": {
+                        "KeyAlgorithm": {
+                            "description": "Type of the public key algorithm and size, in bits, of the key pair that your key pair creates when it issues a certificate.",
+                            "enum": [
+                                "RSA_2048",
+                                "RSA_4096",
+                                "EC_prime256v1",
+                                "EC_secp384r1"
+                            ],
+                            "type": "string"
+                        },
+                        "SigningAlgorithm": {
+                            "description": "Name of the algorithm your private CA uses to sign certificate requests.",
+                            "enum": [
+                                "SHA256WITHECDSA",
+                                "SHA384WITHECDSA",
+                                "SHA512WITHECDSA",
+                                "SHA256WITHRSA",
+                                "SHA384WITHRSA",
+                                "SHA512WITHRSA"
+                            ],
+                            "type": "string"
+                        },
+                        "Subject": {
+                            "description": "Structure that contains X.500 distinguished name information for your private CA.",
+                            "properties": {
+                                "CommonName": {
+                                    "description": "Fully qualified domain name (FQDN) associated with the certificate subject.",
+                                    "maxLength": 64,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Country": {
+                                    "description": "Two-digit code that specifies the country in which the certificate subject located.",
+                                    "pattern": "[A-Za-z]{2}",
+                                    "type": "string"
+                                },
+                                "DistinguishedNameQualifier": {
+                                    "description": "Disambiguating information for the certificate subject.",
+                                    "maxLength": 64,
+                                    "minLength": 0,
+                                    "pattern": "[a-zA-Z0-9'()+-.?:/= ]*",
+                                    "type": "string"
+                                },
+                                "GenerationQualifier": {
+                                    "description": "Typically a qualifier appended to the name of an individual. Examples include Jr. for junior, Sr. for senior, and III for third.",
+                                    "maxLength": 3,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "GivenName": {
+                                    "description": "First name.",
+                                    "maxLength": 16,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Initials": {
+                                    "description": "Concatenation that typically contains the first letter of the <b>GivenName</b>, the first letter of the middle name if one exists, and the first letter of the <b>SurName</b>.",
+                                    "maxLength": 5,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Locality": {
+                                    "description": "The locality (such as a city or town) in which the certificate subject is located.",
+                                    "maxLength": 128,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Organization": {
+                                    "description": "Legal name of the organization with which the certificate subject is affiliated. ",
+                                    "maxLength": 64,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "OrganizationalUnit": {
+                                    "description": "A subdivision or unit of the organization (such as sales or finance) with which the certificate subject is affiliated.",
+                                    "maxLength": 64,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Pseudonym": {
+                                    "description": "Typically a shortened version of a longer <b>GivenName</b>. For example, Jonathan is often shortened to John. Elizabeth is often shortened to Beth, Liz, or Eliza.",
+                                    "maxLength": 128,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "SerialNumber": {
+                                    "description": "The certificate serial number.",
+                                    "maxLength": 64,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "State": {
+                                    "description": "State in which the subject of the certificate is located.",
+                                    "maxLength": 128,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Surname": {
+                                    "description": "Family name. In the US and the UK, for example, the surname of an individual is ordered last. In Asian cultures the surname is typically ordered first.",
+                                    "maxLength": 40,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Title": {
+                                    "description": "A title such as Mr. or Ms., which is pre-pended to the name to refer formally to the certificate subject.",
+                                    "maxLength": 64,
+                                    "minLength": 0,
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "KeyAlgorithm",
+                        "SigningAlgorithm",
+                        "Subject"
+                    ],
+                    "type": "object"
+                },
+                "CertificateAuthorityType": {
+                    "description": "The type of the certificate authority. Currently, this must be <b>SUBORDINATE</b>.",
+                    "enum": [
+                        "SUBORDINATE"
+                    ],
+                    "type": "string"
+                },
+                "IdempotencyToken": {
+                    "description": "Alphanumeric string that can be used to distinguish between calls to <b>CreateCertificateAuthority</b>. Idempotency tokens time out after five minutes. Therefore, if you call <b>CreateCertificateAuthority</b> multiple times with the same idempotency token within a five minute period, ACM PCA recognizes that you are requesting only one certificate. As a result, ACM PCA issues only one. If you change the idempotency token for each call, however, ACM PCA recognizes that you are requesting multiple certificates.",
+                    "maxLength": 36,
+                    "minLength": 1,
+                    "pattern": "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*",
+                    "type": "string"
+                },
+                "RevocationConfiguration": {
+                    "description": "Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM PCA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the <b>CRL Distribution Points</b> extension of your CA certificate. For more information, see the <a>CrlConfiguration</a> structure. ",
+                    "properties": {
+                        "CrlConfiguration": {
+                            "description": "Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.",
+                            "properties": {
+                                "CustomCname": {
+                                    "description": "Name inserted into the certificate <b>CRL Distribution Points</b> extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.",
+                                    "maxLength": 253,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Enabled": {
+                                    "description": "Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the <a>CreateCertificateAuthority</a> operation or for an existing CA when you call the <a>UpdateCertificateAuthority</a> operation. ",
+                                    "type": "boolean"
+                                },
+                                "ExpirationInDays": {
+                                    "description": "Number of days until a certificate expires.",
+                                    "maximum": 5000,
+                                    "minimum": 1,
+                                    "type": "integer"
+                                },
+                                "S3BucketName": {
+                                    "description": "Name of the S3 bucket that contains the CRL. If you do not provide a value for the <b>CustomCname</b> argument, the name of your S3 bucket is placed into the <b>CRL Distribution Points</b> extension of the issued certificate. You can change the name of your bucket by calling the <a>UpdateCertificateAuthority</a> operation. You must specify a bucket policy that allows ACM PCA to write the CRL to your bucket.",
+                                    "maxLength": 255,
+                                    "minLength": 3,
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "Enabled"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "Tags": {
+                    "description": "Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA.",
+                    "items": {
+                        "description": "Tags are labels that you can use to identify and organize your private CAs. Each tag consists of a key and an optional value. You can associate up to 50 tags with a private CA. To add one or more tags to a private CA, call the <a>TagCertificateAuthority</a> operation. To remove a tag, call the <a>UntagCertificateAuthority</a> operation. ",
+                        "properties": {
+                            "Key": {
+                                "description": "Key (name) of the tag.",
+                                "maxLength": 128,
+                                "minLength": 1,
+                                "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                "type": "string"
+                            },
+                            "Value": {
+                                "description": "Value of the tag.",
+                                "maxLength": 256,
+                                "minLength": 0,
+                                "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "Key"
+                        ],
+                        "type": "object"
+                    },
+                    "maxItems": 50,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "CertificateAuthorityConfiguration",
+                "CertificateAuthorityType"
+            ],
+            "type": "object"
+        },
+        "X_Amz_Content_Sha256": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Date": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Algorithm": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Credential": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Security_Token": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Signature": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_SignedHeaders": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

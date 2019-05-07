@@ -1,0 +1,106 @@
+{
+    "type": "object",
+    "properties": {
+        "Action": {
+            "required": true,
+            "type": "string"
+        },
+        "Version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "CertificateAuthorityArn": {
+                    "description": "<p>Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:</p> <p> <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i> </code> </p>",
+                    "maxLength": 200,
+                    "minLength": 5,
+                    "pattern": "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*",
+                    "type": "string"
+                },
+                "RevocationConfiguration": {
+                    "description": "Revocation information for your private CA.",
+                    "properties": {
+                        "CrlConfiguration": {
+                            "description": "Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.",
+                            "properties": {
+                                "CustomCname": {
+                                    "description": "Name inserted into the certificate <b>CRL Distribution Points</b> extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.",
+                                    "maxLength": 253,
+                                    "minLength": 0,
+                                    "type": "string"
+                                },
+                                "Enabled": {
+                                    "description": "Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the <a>CreateCertificateAuthority</a> operation or for an existing CA when you call the <a>UpdateCertificateAuthority</a> operation. ",
+                                    "type": "boolean"
+                                },
+                                "ExpirationInDays": {
+                                    "description": "Number of days until a certificate expires.",
+                                    "maximum": 5000,
+                                    "minimum": 1,
+                                    "type": "integer"
+                                },
+                                "S3BucketName": {
+                                    "description": "Name of the S3 bucket that contains the CRL. If you do not provide a value for the <b>CustomCname</b> argument, the name of your S3 bucket is placed into the <b>CRL Distribution Points</b> extension of the issued certificate. You can change the name of your bucket by calling the <a>UpdateCertificateAuthority</a> operation. You must specify a bucket policy that allows ACM PCA to write the CRL to your bucket.",
+                                    "maxLength": 255,
+                                    "minLength": 3,
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "Enabled"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "Status": {
+                    "description": "Status of your private CA.",
+                    "enum": [
+                        "CREATING",
+                        "PENDING_CERTIFICATE",
+                        "ACTIVE",
+                        "DELETED",
+                        "DISABLED",
+                        "EXPIRED",
+                        "FAILED"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "CertificateAuthorityArn"
+            ],
+            "type": "object"
+        },
+        "X_Amz_Content_Sha256": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Date": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Algorithm": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Credential": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Security_Token": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Signature": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_SignedHeaders": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

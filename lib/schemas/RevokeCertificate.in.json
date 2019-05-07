@@ -1,0 +1,78 @@
+{
+    "type": "object",
+    "properties": {
+        "Action": {
+            "required": true,
+            "type": "string"
+        },
+        "Version": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "CertificateAuthorityArn": {
+                    "description": "<p>Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:</p> <p> <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i> </code> </p>",
+                    "maxLength": 200,
+                    "minLength": 5,
+                    "pattern": "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*",
+                    "type": "string"
+                },
+                "CertificateSerial": {
+                    "description": "<p>Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling <a>GetCertificate</a> with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The <b>GetCertificate</b> operation retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. </p> <p> <code>openssl x509 -in <i>file_path</i> -text -noout</code> </p> <p>You can also copy the serial number from the console or use the <a href=\"https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html\">DescribeCertificate</a> operation in the <i>AWS Certificate Manager API Reference</i>. </p>",
+                    "maxLength": 128,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "RevocationReason": {
+                    "description": "Specifies why you revoked the certificate.",
+                    "enum": [
+                        "UNSPECIFIED",
+                        "KEY_COMPROMISE",
+                        "CERTIFICATE_AUTHORITY_COMPROMISE",
+                        "AFFILIATION_CHANGED",
+                        "SUPERSEDED",
+                        "CESSATION_OF_OPERATION",
+                        "PRIVILEGE_WITHDRAWN",
+                        "A_A_COMPROMISE"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "CertificateAuthorityArn",
+                "CertificateSerial",
+                "RevocationReason"
+            ],
+            "type": "object"
+        },
+        "X_Amz_Content_Sha256": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Date": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Algorithm": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Credential": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Security_Token": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_Signature": {
+            "required": false,
+            "type": "string"
+        },
+        "X_Amz_SignedHeaders": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}
